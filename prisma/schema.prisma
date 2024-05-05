@@ -16,3 +16,12 @@ model Query {
   response String
   createdAt DateTime @default(now())
 }
+
+model Message {
+  id String @id @default(uuid())
+  chatId String
+  role String
+  content String
+  isCompleted Boolean
+  createdAt DateTime @default(now())
+}
