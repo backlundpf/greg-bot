@@ -2,8 +2,10 @@ import { useState } from "react";
 
 export default function ChatInput({
   onSubmit,
+  isEnabled,
 }: {
   onSubmit: (message: string) => void;
+  isEnabled: boolean;
 }) {
   const [message, setMessage] = useState("");
 
@@ -32,7 +34,7 @@ export default function ChatInput({
         <button
           type="submit"
           className="rounded-lg border border-black bg-white p-0.5 text-white transition-colors enabled:bg-white disabled:text-gray-400 disabled:opacity-10 dark:border-white dark:bg-white dark:hover:bg-white md:bottom-3 md:right-3"
-          disabled={message ? false : true}
+          disabled={message && isEnabled ? false : true}
         >
           <svg
             width="24"

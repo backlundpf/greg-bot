@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatInput from "./ChatInput";
 import EmptyChat from "./EmptyChat";
 import ChatMessage from "./ChatMessage";
@@ -41,6 +41,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
   }, []);
 
   async function submitMessage(message: string) {
+    if (!isConnected) return;
     const newMessage = {
       id: uuidv4(),
       chatId,
@@ -82,8 +83,8 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
   }
 
   return (
-    <div className="container max-w-4xl flex flex-col justify-end min-h-screen ">
-      <div className="flex flex-col justify-end gap-y-10 overflow-auto h-full">
+    <div className="container max-w-4xl flex flex-col justify-end min-h-dvh ">
+      <div className="flex flex-col justify-end gap-y-10 h-full">
         {messages.length ? (
           messages.map((message) => {
             return (
@@ -95,10 +96,13 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
             );
           })
         ) : (
-          <EmptyChat onSubmit={submitMessage}></EmptyChat>
+          <EmptyChat
+            onSubmit={submitMessage}
+            isEnabled={isConnected}
+          ></EmptyChat>
         )}
       </div>
-      <ChatInput onSubmit={submitMessage}></ChatInput>
+      <ChatInput onSubmit={submitMessage} isEnabled={isConnected}></ChatInput>
       <div className="flex flex-col items-center">
         <p>GregPT makes mistakes. We're not sure if they're intentional.</p>
         <div className="flex items-center gap-x-2">

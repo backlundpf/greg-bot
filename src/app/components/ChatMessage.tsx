@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Message, MessageUpdate, Role } from "../../types/message";
 import { socket } from "@/socket";
 import Image from "next/image";
@@ -18,6 +18,14 @@ export default function ChatMessage({
   const [isCompleted, setIsCompleted] = useState(message.isCompleted);
 
   // let messageUpdates: MessageUpdate[] = [];
+  const messageRef = useRef<null | HTMLDivElement>(null);
+
+  // function scrollToBottom() {
+  //   messageRef?.current?.scrollIntoView({ behavior: "smooth" });
+  // }
+  // useEffect(() => {
+  //   scrollToBottom();
+  // });
 
   useEffect(() => {
     if (isCompleted) return;
@@ -91,7 +99,7 @@ export default function ChatMessage({
     }
   }
   return (
-    <div className="flex gap-4">
+    <div ref={messageRef} className="flex gap-4">
       <div className="min-w-12">
         <Image
           className="rounded-full w-12 h-12"

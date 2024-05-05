@@ -2,8 +2,10 @@ import Image from "next/image";
 
 export default function EmptyChat({
   onSubmit,
+  isEnabled,
 }: {
   onSubmit: (prompt: string) => void;
+  isEnabled: boolean;
 }) {
   const samplePrompts = [
     "Tell me about yourself.",
@@ -24,11 +26,11 @@ export default function EmptyChat({
         />
         <div className="text-2xl">How Can I Help you today?</div>
       </div>
-
       <div className="grid grid-cols-2 gap-4">
-        {samplePrompts.map((prompt) => (
-          <PromptButton prompt={prompt} onClick={onSubmit}></PromptButton>
-        ))}
+        {isEnabled &&
+          samplePrompts.map((prompt) => (
+            <PromptButton prompt={prompt} onClick={onSubmit}></PromptButton>
+          ))}
       </div>
     </div>
   );
