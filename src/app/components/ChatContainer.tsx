@@ -83,7 +83,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
 
   return (
     <div className="container max-w-4xl flex flex-col justify-end min-h-screen ">
-      <div className="flex flex-col justify-end gap-y-10 overflow-auto">
+      <div className="flex flex-col justify-end gap-y-10 overflow-auto h-full">
         {messages.length ? (
           messages.map((message) => {
             return (
@@ -95,7 +95,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
             );
           })
         ) : (
-          <EmptyChat></EmptyChat>
+          <EmptyChat onSubmit={submitMessage}></EmptyChat>
         )}
       </div>
       <ChatInput onSubmit={submitMessage}></ChatInput>

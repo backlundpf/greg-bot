@@ -111,7 +111,7 @@ export default function ChatMessage({
           {messageContent ? (
             <MarkDown
               remarkPlugins={[remarkGfm]}
-              className="prose space-y-4 max-w-full font-sans"
+              className="prose prose-stone dark:prose-invert space-y-4 max-w-full font-sans"
             >
               {messageContent}
             </MarkDown>
