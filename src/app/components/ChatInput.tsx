@@ -14,7 +14,7 @@ export default function ChatInput({
   }
 
   return (
-    <div className="absolute bottom-5">
+    <div className="">
       <form
         autoComplete="off"
         action={onFormSubmit}
@@ -25,7 +25,7 @@ export default function ChatInput({
           id="prompt-textarea"
           type="text"
           placeholder="Message GregPT..."
-          className="bg-transparent border-0 m-0 focus:border-transparent focus:ring-0 !outline-none"
+          className="bg-transparent border-0 m-0 focus:border-transparent focus:ring-0 !outline-none w-full"
           onChange={(event) => setMessage(event.target.value)}
           value={message}
         ></input>
@@ -44,10 +44,9 @@ export default function ChatInput({
             <path
               d="M7 11L12 6L17 11M12 18V7"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              data-darkreader-inline-stroke=""
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></path>
           </svg>
         </button>

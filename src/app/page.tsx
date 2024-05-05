@@ -1,6 +1,4 @@
 "use client";
-import { queryGregBot } from "@/queries/query";
-import { useState } from "react";
 import ChatContainer from "./components/ChatContainer";
 import { uuidv4 } from "./common/crypto";
 export default function Home() {
