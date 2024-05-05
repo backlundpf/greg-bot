@@ -14,7 +14,7 @@ export default function ChatInput({
   }
 
   return (
-    <div className="">
+    <div className="flex flex-col justify-center mt-4">
       <form
         autoComplete="off"
         action={onFormSubmit}
@@ -51,8 +51,6 @@ export default function ChatInput({
           </svg>
         </button>
       </form>
-
-      <p>GregPT makes mistakes.</p>
     </div>
   );
 }

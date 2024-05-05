@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ChatInput from "./ChatInput";
 import EmptyChat from "./EmptyChat";
 import ChatMessage from "./ChatMessage";
-import { Message } from "../../types/message";
+import { Message, Role } from "../../types/message";
 import { uuidv4 } from "../common/crypto";
 import { socket } from "@/socket";
 
@@ -44,7 +44,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
     const newMessage = {
       id: uuidv4(),
       chatId,
-      role: "user",
+      role: Role.user,
       content: message,
       isCompleted: true,
     };
@@ -52,7 +52,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
     const responseMessage = {
       id: uuidv4(),
       chatId,
-      role: "assistant",
+      role: Role.assistant,
       content: "",
       isCompleted: false,
     };
@@ -82,8 +82,8 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
   }
 
   return (
-    <div className="flex flex-col justify-end min-h-screen ">
-      <div className="flex flex-col justify-end gap-y-4 overflow-auto">
+    <div className="container max-w-4xl flex flex-col justify-end min-h-screen ">
+      <div className="flex flex-col justify-end gap-y-10 overflow-auto">
         {messages.length ? (
           messages.map((message) => {
             return (
@@ -99,7 +99,32 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
         )}
       </div>
       <ChatInput onSubmit={submitMessage}></ChatInput>
-      <p>Status: {isConnected ? "connected" : "disconnected"}</p>
+      <div className="flex flex-col items-center">
+        <p>GregPT makes mistakes. We're not sure if they're intentional.</p>
+        <div className="flex items-center gap-x-2">
+          GregPT Status:
+          <span>
+            <svg height="12" width="12" xmlns="http://www.w3.org/2000/svg">
+              <circle
+                r="5"
+                cx="6"
+                cy="6"
+                fill={isConnected ? "green" : "red"}
+              />
+            </svg>
+          </span>{" "}
+          {isConnected ? (
+            <p>
+              Connected{" "}
+              <span className="font-light text-slate-400">
+                (but not to reality)
+              </span>
+            </p>
+          ) : (
+            "Disconnected"
+          )}
+        </div>
+      </div>
     </div>
   );
 }

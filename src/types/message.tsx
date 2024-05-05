@@ -1,9 +1,14 @@
 export interface Message {
   id: string;
   chatId: string;
-  role: string;
+  role: Role;
   content: string;
   isCompleted: boolean;
+}
+
+export enum Role {
+  user = "user",
+  assistant = "assistant",
 }
 
 export interface MessageUpdate {

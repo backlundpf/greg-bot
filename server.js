@@ -32,7 +32,7 @@ app.prepare().then(() => {
       });
 
       for await (const part of response) {
-        console.log(part);
+        // console.log(part);
         socket.emit("update-message-" + lastMessage.id, {
           id: lastMessage.id,
           chatId: lastMessage.chatId,
