@@ -12,6 +12,11 @@ export default function Home() {
   return (
     <>
       <ChatContainer chatId={chatId}></ChatContainer>
+      <div className="absolute top-3 right-5 w-8 h-8">
+        <a href="https://github.com/backlundpf/greg-bot/" target="_blank">
+          <img src="/github-mark-white.svg" alt="Link to github" />
+        </a>
+      </div>
     </>
   );
 }

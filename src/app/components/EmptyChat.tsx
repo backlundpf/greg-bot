@@ -13,7 +13,7 @@ export default function EmptyChat({
     "Tell me about yourself.",
     "What's the latest trend in AI?",
     "Show me how to use the window.setInterval() function.",
-    "Does the existential dread ever end?",
+    "How do you feel about boats?",
   ];
 
   const [isClient, setIsClient] = useState(false);
