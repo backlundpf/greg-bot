@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 export default function EmptyChat({
   onSubmit,
@@ -10,10 +10,10 @@ export default function EmptyChat({
   isEnabled: boolean;
 }) {
   const samplePrompts = [
-    "Tell me about yourself.",
-    "What's the latest trend in AI?",
-    "Show me how to use the window.setInterval() function.",
-    "How do you feel about boats?",
+    "Make up a story",
+    "What's happening?",
+    "Show me how to use the window.setInterval() function",
+    "Plan a mental health day",
   ];
 
   const [isClient, setIsClient] = useState(false);
@@ -32,16 +32,14 @@ export default function EmptyChat({
           width={48}
           height={48}
         />
-        <div className="text-2xl">How Can I Help you today?</div>
+        <div className="text-2xl font-lg">How can I help you today?</div>
       </div>
       <div className="grid grid-cols-2 gap-4">
         {isEnabled &&
           samplePrompts.map((prompt) => (
-            <PromptButton
-              key={prompt}
-              prompt={prompt}
-              onClick={onSubmit}
-            ></PromptButton>
+            <PromptButton key={prompt} onClick={() => onSubmit(prompt)}>
+              {prompt}
+            </PromptButton>
           ))}
       </div>
     </div>
@@ -49,22 +47,19 @@ export default function EmptyChat({
 }
 
 function PromptButton({
-  prompt,
+  children,
   onClick,
 }: {
-  prompt: string;
-  onClick: (prompt: string) => void;
+  children: ReactNode;
+  onClick: () => void;
 }) {
-  function selectPromptHandler() {
-    onClick(prompt);
-  }
   return (
     <button
       type="button"
-      className="border border-white rounded-xl p-3 cursor-pointer"
-      onClick={selectPromptHandler}
+      className="border border-1 border-neutral-700 rounded-xl p-3 cursor-pointer hover:bg-white/10"
+      onClick={onClick}
     >
-      {prompt}
+      <span className="opacity-100">{children}</span>
     </button>
   );
 }

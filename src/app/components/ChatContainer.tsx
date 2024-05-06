@@ -103,7 +103,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
         )}
       </div>
       <ChatInput onSubmit={submitMessage} isEnabled={isConnected}></ChatInput>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center text-sm">
         <p className="font-semibold text-center">
           GregPT makes mistakes. We're not sure if it's intentional. Maybe don't
           trust him.

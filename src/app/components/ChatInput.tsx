@@ -20,7 +20,7 @@ export default function ChatInput({
       <form
         autoComplete="off"
         action={onFormSubmit}
-        className="flex query-box border border-white rounded-xl p-3"
+        className="flex query-box border border-white/10 rounded-xl p-3 focus-within:border-white/20"
       >
         <input
           name="userMessage"
