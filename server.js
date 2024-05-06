@@ -19,6 +19,7 @@ const handler = app.getRequestHandler();
 app.prepare().then(() => {
   const httpServer = createServer(handler);
 
+  console.log("NODE_ENV", process.env.NODE_ENV);
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {

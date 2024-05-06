@@ -104,7 +104,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
       </div>
       <ChatInput onSubmit={submitMessage} isEnabled={isConnected}></ChatInput>
       <div className="flex flex-col items-center">
-        <p>GregPT makes mistakes. We're not sure if they're intentional.</p>
+        <p>GregPT makes mistakes. We're not sure if it's intentional.</p>
         <div className="flex items-center gap-x-2">
           GregPT Status:
           <span>

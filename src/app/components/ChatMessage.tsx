@@ -30,7 +30,7 @@ export default function ChatMessage({
   useEffect(() => {
     if (isCompleted) return;
     const interval = window.setInterval(() => {
-      console.log(message.id, messageContent);
+      // console.log(message.id, messageContent);
       if (isCompleted) window.clearInterval(interval);
       setLoadingMessage((prevLoadingMessage) => prevLoadingMessage + ".");
     }, 750);

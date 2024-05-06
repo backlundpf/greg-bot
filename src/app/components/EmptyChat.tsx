@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function EmptyChat({
   onSubmit,
@@ -13,6 +15,12 @@ export default function EmptyChat({
     "Show me how to use the window.setInterval() function.",
     "Does the existential dread ever end?",
   ];
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <div className="flex flex-col justify-end items-center h-full">
@@ -29,7 +37,11 @@ export default function EmptyChat({
       <div className="grid grid-cols-2 gap-4">
         {isEnabled &&
           samplePrompts.map((prompt) => (
-            <PromptButton prompt={prompt} onClick={onSubmit}></PromptButton>
+            <PromptButton
+              key={prompt}
+              prompt={prompt}
+              onClick={onSubmit}
+            ></PromptButton>
           ))}
       </div>
     </div>
