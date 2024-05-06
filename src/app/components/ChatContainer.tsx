@@ -110,7 +110,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
         </p>
         <div className="flex items-center gap-x-2">
           <p className="">
-            Built with Lang<span className="text-slate-300">[e]</span>
+            Built with Lang<span className="">[e]</span>
             Chain |{" "}
           </p>
           <span>
