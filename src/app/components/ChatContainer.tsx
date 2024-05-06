@@ -104,9 +104,15 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
       </div>
       <ChatInput onSubmit={submitMessage} isEnabled={isConnected}></ChatInput>
       <div className="flex flex-col items-center">
-        <p>GregPT makes mistakes. We're not sure if it's intentional.</p>
+        <p className="font-semibold text-center">
+          GregPT makes mistakes. We're not sure if it's intentional. Maybe don't
+          trust him.
+        </p>
         <div className="flex items-center gap-x-2">
-          GregPT Status:
+          <p className="">
+            Built with Lang<span className="text-slate-300">[e]</span>
+            Chain |{" "}
+          </p>
           <span>
             <svg height="12" width="12" xmlns="http://www.w3.org/2000/svg">
               <circle
