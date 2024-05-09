@@ -20,6 +20,8 @@ model Query {
 model Message {
   id String @id @default(uuid())
   chatId String
+  groupId String?
+  parentGroupId String?
   role String
   content String
   isCompleted Boolean

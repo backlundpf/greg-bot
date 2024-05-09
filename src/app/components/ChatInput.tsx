@@ -3,20 +3,22 @@ import { useState } from "react";
 export default function ChatInput({
   onSubmit,
   isEnabled,
+  respondingTo,
 }: {
-  onSubmit: (message: string) => void;
+  onSubmit: (message: string, parentGroupId?: string) => void;
   isEnabled: boolean;
+  respondingTo?: string;
 }) {
   const [message, setMessage] = useState("");
 
   function onFormSubmit(formData: FormData) {
     if (!message) return;
-    onSubmit(message);
+    onSubmit(message, respondingTo);
     setMessage("");
   }
 
   return (
-    <div className="flex flex-col justify-center mt-4">
+    <div className="flex flex-col justify-center mt-4 w-full">
       <form
         autoComplete="off"
         action={onFormSubmit}

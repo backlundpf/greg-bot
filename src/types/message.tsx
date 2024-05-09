@@ -1,6 +1,8 @@
 export interface Message {
   id: string;
   chatId: string;
+  groupId: string;
+  parentGroupId: string | undefined;
   role: Role;
   content: string;
   isCompleted: boolean;

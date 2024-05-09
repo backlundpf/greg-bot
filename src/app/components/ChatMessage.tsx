@@ -98,8 +98,9 @@ export default function ChatMessage({
         return "You";
     }
   }
+
   return (
-    <div ref={messageRef} className="flex gap-4">
+    <div ref={messageRef} className="flex gap-4 w-full">
       <div className="min-w-12">
         <Image
           className="rounded-full w-12 h-12"
@@ -126,6 +127,11 @@ export default function ChatMessage({
           ) : (
             loadingMessage
           )}
+        </div>
+        <div className="text-slate-400">
+          <p>Message Id: {message.id}</p>
+          <p>Group Id: {message.groupId}</p>
+          <p>Parent Group Id: {message.parentGroupId}</p>
         </div>
       </div>
     </div>

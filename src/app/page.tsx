@@ -1,13 +1,9 @@
 "use client";
 import ChatContainer from "./components/ChatContainer";
 import { uuidv4 } from "./common/crypto";
+
 export default function Home() {
   const chatId = uuidv4();
-  // const [messages, setMessages] = useState([]);
-
-  // async function queryGregBot () {
-  //   const response = await fetch("")
-  // }
 
   return (
     <>
