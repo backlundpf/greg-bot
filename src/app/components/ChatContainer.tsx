@@ -5,11 +5,20 @@ import ChatMessage from "./ChatMessage";
 import { Message, Role } from "../../types/message";
 import { uuidv4 } from "../common/crypto";
 import { socket } from "@/socket";
-import ReactFlow from "reactflow";
+import ReactFlow, {
+  Edge,
+  Node,
+  useEdgesState,
+  useNodesState,
+  useReactFlow,
+} from "reactflow";
 
 export default function ChatContainer({ chatId }: { chatId: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [respondingTo, setRespondingTo] = useState("");
+
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [transport, setTransport] = useState("N/A");
@@ -46,7 +55,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
     if (!isConnected) return;
     const groupId = uuidv4();
 
-    const newMessage = {
+    const newMessage: Message = {
       id: uuidv4(),
       chatId,
       parentGroupId,
@@ -56,7 +65,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
       isCompleted: true,
     };
 
-    const responseMessage = {
+    const responseMessage: Message = {
       id: uuidv4(),
       chatId,
       parentGroupId,
@@ -70,6 +79,54 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
 
     setMessages(newMessages);
     setRespondingTo(groupId);
+
+    // Place new Node and edges
+    // Y position based on number of ancestors
+    const xSpacing = 150;
+    const ySpacing = 150;
+    const xCenter = 300;
+
+    let traverseGroupId = parentGroupId;
+
+    let ancestorsCount = 0;
+    while (traverseGroupId) {
+      const parent = newMessages.find(
+        (message) => message.groupId == traverseGroupId
+      );
+      ancestorsCount++;
+      traverseGroupId = parent?.parentGroupId;
+    }
+
+    const yPosition = ancestorsCount * ySpacing || ySpacing;
+    // X position based on number of siblings
+    const siblings = newMessages.filter(
+      (message) => message.parentGroupId == parentGroupId
+    );
+
+    const xPosition = siblings.length * xSpacing || xCenter;
+
+    const newNode: Node = {
+      id: groupId,
+      data: {
+        prompt: newMessage,
+        response: responseMessage,
+      },
+      position: {
+        x: xPosition,
+        y: yPosition,
+      },
+    };
+
+    if (parentGroupId) {
+      const newEdge: Edge = {
+        id: uuidv4(),
+        source: parentGroupId,
+        target: groupId,
+      };
+      setEdges((prevEdges) => prevEdges.concat(newEdge));
+    }
+
+    setNodes((prevNodes) => prevNodes.concat(newNode));
 
     socket.emit("new-message", newMessages);
     // const response = await fetch("api/chat", {
@@ -92,32 +149,43 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
   }
 
   return (
-    <div className="flex justify-end divide-x divide-slate-400">
-      <div></div>
-      <div className="container max-w-4xl flex flex-col justify-end min-h-dvh items-center px-4">
-        <div className="flex flex-col justify-end gap-y-10 h-full">
-          {messages.length ? (
-            messages.map((message) => {
-              return (
-                <ChatMessage
-                  key={message.id}
-                  message={message}
-                  onComplete={completeMessage}
-                ></ChatMessage>
-              );
-            })
-          ) : (
-            <EmptyChat
-              onSubmit={submitMessage}
-              isEnabled={isConnected}
-            ></EmptyChat>
-          )}
+    <div className="flex justify-end divide-x divide-slate-400 items-stretch h-dvh max-h-dvh">
+      <div className="grow">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+        ></ReactFlow>
+      </div>
+      <div className="container max-w-4xl flex flex-col justify-end items-stretch">
+        <div className="overflow-y-scroll px-4 ">
+          <div className="flex flex-col justify-end gap-y-10 w-full align stretch">
+            {messages.length ? (
+              messages.map((message) => {
+                return (
+                  <ChatMessage
+                    key={message.id}
+                    message={message}
+                    onComplete={completeMessage}
+                  ></ChatMessage>
+                );
+              })
+            ) : (
+              <EmptyChat
+                onSubmit={submitMessage}
+                isEnabled={isConnected}
+              ></EmptyChat>
+            )}
+          </div>
         </div>
-        <ChatInput
-          onSubmit={submitMessage}
-          respondingTo={respondingTo}
-          isEnabled={isConnected}
-        ></ChatInput>
+        <div className="px-4">
+          <ChatInput
+            onSubmit={submitMessage}
+            respondingTo={respondingTo}
+            isEnabled={isConnected}
+          ></ChatInput>
+        </div>
         <div className="flex flex-col items-center text-sm">
           <p className="font-semibold text-center">
             GregPT makes mistakes. We're not sure if it's intentional. Maybe
