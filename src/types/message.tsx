@@ -22,6 +22,7 @@ export interface MessageUpdate {
 }
 
 export interface ChatGroup {
+  id: string;
   prompt: Message;
   response: Message;
 }

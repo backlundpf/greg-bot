@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import ChatInput from "./ChatInput";
 import EmptyChat from "./EmptyChat";
 import ChatMessage from "./ChatMessage";
@@ -15,6 +22,15 @@ import ReactFlow, {
 import { ChatGroupNode } from "./ChatGroupNode";
 
 const nodeTypes = { chatGroup: ChatGroupNode };
+
+export type MessageHeadContextType = {
+  respondingTo: string;
+  setRespondingTo: Dispatch<SetStateAction<string>>;
+};
+export const MessageHeadContext = createContext<MessageHeadContextType | null>(
+  null
+);
+
 export default function ChatContainer({ chatId }: { chatId: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [respondingTo, setRespondingTo] = useState("");
@@ -90,7 +106,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
 
     let traverseGroupId = parentGroupId;
 
-    let ancestorsCount = 0;
+    let ancestorsCount = 1;
     while (traverseGroupId) {
       const parent = newMessages.find(
         (message) => message.groupId == traverseGroupId
@@ -99,7 +115,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
       traverseGroupId = parent?.parentGroupId;
     }
 
-    const yPosition = ancestorsCount * ySpacing || ySpacing;
+    const yPosition = ancestorsCount * ySpacing;
     // X position based on number of siblings
     const siblings = newMessages.filter(
       (message) => message.parentGroupId == parentGroupId
@@ -111,6 +127,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
       id: groupId,
       type: "chatGroup",
       data: {
+        id: groupId,
         prompt: newMessage,
         response: responseMessage,
       },
@@ -152,77 +169,79 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
   }
 
   return (
-    <div className="flex justify-end divide-x divide-slate-400 items-stretch h-dvh max-h-dvh">
-      <div className="grow">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          nodeTypes={nodeTypes}
-        ></ReactFlow>
-      </div>
-      <div className="container max-w-4xl flex flex-col justify-end items-stretch">
-        <div className="overflow-y-scroll px-4 ">
-          <div className="flex flex-col justify-end gap-y-10 w-full align stretch">
-            {messages.length ? (
-              messages.map((message) => {
-                return (
-                  <ChatMessage
-                    key={message.id}
-                    message={message}
-                    onComplete={completeMessage}
-                  ></ChatMessage>
-                );
-              })
-            ) : (
-              <EmptyChat
-                onSubmit={submitMessage}
-                isEnabled={isConnected}
-              ></EmptyChat>
-            )}
+    <MessageHeadContext.Provider value={{ respondingTo, setRespondingTo }}>
+      <div className="flex justify-end divide-x divide-slate-400 items-stretch h-dvh max-h-dvh">
+        <div className="grow">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            nodeTypes={nodeTypes}
+          ></ReactFlow>
+        </div>
+        <div className="container max-w-4xl flex flex-col justify-end items-stretch">
+          <div className="overflow-y-scroll px-4 ">
+            <div className="flex flex-col justify-end gap-y-10 w-full align stretch">
+              {messages.length ? (
+                messages.map((message) => {
+                  return (
+                    <ChatMessage
+                      key={message.id}
+                      message={message}
+                      onComplete={completeMessage}
+                    ></ChatMessage>
+                  );
+                })
+              ) : (
+                <EmptyChat
+                  onSubmit={submitMessage}
+                  isEnabled={isConnected}
+                ></EmptyChat>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="px-4">
-          <ChatInput
-            onSubmit={submitMessage}
-            respondingTo={respondingTo}
-            isEnabled={isConnected}
-          ></ChatInput>
-        </div>
-        <div className="flex flex-col items-center text-sm">
-          <p className="font-semibold text-center">
-            GregPT makes mistakes. We're not sure if it's intentional. Maybe
-            don't trust him.
-          </p>
-          <div className="flex items-center gap-x-2">
-            <p className="">
-              Built with Lang<span className="">[e]</span>
-              Chain |{" "}
+          <div className="px-4">
+            <ChatInput
+              onSubmit={submitMessage}
+              respondingTo={respondingTo}
+              isEnabled={isConnected}
+            ></ChatInput>
+          </div>
+          <div className="flex flex-col items-center text-sm">
+            <p className="font-semibold text-center">
+              GregPT makes mistakes. We're not sure if it's intentional. Maybe
+              don't trust him.
             </p>
-            <span>
-              <svg height="12" width="12" xmlns="http://www.w3.org/2000/svg">
-                <circle
-                  r="5"
-                  cx="6"
-                  cy="6"
-                  fill={isConnected ? "green" : "red"}
-                />
-              </svg>
-            </span>{" "}
-            {isConnected ? (
-              <p>
-                Connected{" "}
-                <span className="font-light text-slate-400">
-                  (but not to reality)
-                </span>
+            <div className="flex items-center gap-x-2">
+              <p className="">
+                Built with Lang<span className="">[e]</span>
+                Chain |{" "}
               </p>
-            ) : (
-              "Disconnected"
-            )}
+              <span>
+                <svg height="12" width="12" xmlns="http://www.w3.org/2000/svg">
+                  <circle
+                    r="5"
+                    cx="6"
+                    cy="6"
+                    fill={isConnected ? "green" : "red"}
+                  />
+                </svg>
+              </span>{" "}
+              {isConnected ? (
+                <p>
+                  Connected{" "}
+                  <span className="font-light text-slate-400">
+                    (but not to reality)
+                  </span>
+                </p>
+              ) : (
+                "Disconnected"
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </MessageHeadContext.Provider>
   );
 }
