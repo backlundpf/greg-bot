@@ -20,3 +20,8 @@ export interface MessageUpdate {
   createdAt: string;
   isCompleted: boolean;
 }
+
+export interface ChatGroup {
+  prompt: Message;
+  response: Message;
+}

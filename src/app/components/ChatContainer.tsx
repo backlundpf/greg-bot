@@ -12,7 +12,9 @@ import ReactFlow, {
   useNodesState,
   useReactFlow,
 } from "reactflow";
+import { ChatGroupNode } from "./ChatGroupNode";
 
+const nodeTypes = { chatGroup: ChatGroupNode };
 export default function ChatContainer({ chatId }: { chatId: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [respondingTo, setRespondingTo] = useState("");
@@ -107,6 +109,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
 
     const newNode: Node = {
       id: groupId,
+      type: "chatGroup",
       data: {
         prompt: newMessage,
         response: responseMessage,
@@ -156,6 +159,7 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+          nodeTypes={nodeTypes}
         ></ReactFlow>
       </div>
       <div className="container max-w-4xl flex flex-col justify-end items-stretch">
