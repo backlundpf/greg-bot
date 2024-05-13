@@ -20,6 +20,7 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 import { ChatGroupNode } from "./ChatGroupNode";
+import { ChatMessages } from "./ChatMessages";
 
 const nodeTypes = { chatGroup: ChatGroupNode };
 
@@ -184,15 +185,10 @@ export default function ChatContainer({ chatId }: { chatId: string }) {
           <div className="overflow-y-scroll px-4 ">
             <div className="flex flex-col justify-end gap-y-10 w-full align stretch">
               {messages.length ? (
-                messages.map((message) => {
-                  return (
-                    <ChatMessage
-                      key={message.id}
-                      message={message}
-                      onComplete={completeMessage}
-                    ></ChatMessage>
-                  );
-                })
+                <ChatMessages
+                  messages={messages}
+                  completeMessage={completeMessage}
+                ></ChatMessages>
               ) : (
                 <EmptyChat
                   onSubmit={submitMessage}
