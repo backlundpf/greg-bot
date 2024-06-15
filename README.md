@@ -4,7 +4,7 @@ Welcome to the most cutting-edge AI repository on the planet! 🌎 Here, you'll 
 
 Built using ~~ASP.NET~~ ~~React~~ Next.js! All code can be found in our ~~Monolithic~~ ~~Micro Services~~ Modular Monolith codebase! We always use the latest and trendiest technology! 💪
 
-![Greg Bot in Action](/design/screenshots/GregBotConversation.mp4?raw=true "Greg Bot in Action")
+![Greg Bot in Action](/design/screenshots/GregBotConversation.mp4 "Greg Bot in Action")
 
 ## 📦 Features
 
