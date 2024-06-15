@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "reactflow/dist/style.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} dark flex justify-center font-sans`}>
-        {children}
-      </body>
+      <body className={`${inter.className} dark font-sans`}>{children}</body>
     </html>
   );
 }

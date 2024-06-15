@@ -24,7 +24,7 @@ export default function EmptyChat({
 
   return (
     <div className="flex flex-col justify-end items-center h-full">
-      <div className="flex flex-col items-center justify-center grow">
+      <div className="flex flex-col items-center justify-center grow pb-40">
         <Image
           className="rounded-full w-12 h-12"
           src="/gregprofile.png"

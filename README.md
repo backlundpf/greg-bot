@@ -4,6 +4,8 @@ Welcome to the most cutting-edge AI repository on the planet! 🌎 Here, you'll 
 
 Built using ~~ASP.NET~~ ~~React~~ Next.js! All code can be found in our ~~Monolithic~~ ~~Micro Services~~ Modular Monolith codebase! We always use the latest and trendiest technology! 💪
 
+![Greg Bot in Action](/design/screenshots/GregBotConversation.webm?raw=true "Greg Bot in Action")
+
 ## 📦 Features
 
 - State-of-the-art deep learning models 🧠
@@ -12,6 +14,8 @@ Built using ~~ASP.NET~~ ~~React~~ Next.js! All code can be found in our ~~Monoli
 - Advanced reinforcement learning implementations 🎮
 - Seamless integration with popular frameworks like TensorFlow, PyTorch, and scikit-learn 🛠️
 - Extensive documentation and tutorials to guide you every step of the way 📚
+
+![Greg Bot Empty Chat](/design/screenshots/initial.png?raw=true "Greg Bot Empty Chat")
 
 ## 🌟 Contribution Guidelines
 
